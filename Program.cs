@@ -1,3 +1,4 @@
+using Azure.Identity;
 using DataTrust.Data;
 using DataTrust.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -8,6 +9,9 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var keyvaulturi = new Uri("https://newtondatatrustkeyvault.vault.azure.net/");
+builder.Configuration.AddAzureKeyVault(keyvaulturi, new DefaultAzureCredential());
 
 builder.Services.AddAuthentication(options =>
 {
@@ -87,7 +91,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration["DefaultConnection"]));
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
