@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddApplicationInsightsTelemetry();
 var keyvaulturi = new Uri("https://newtondatatrustkeyvault.vault.azure.net/");
 builder.Configuration.AddAzureKeyVault(keyvaulturi, new DefaultAzureCredential());
 
